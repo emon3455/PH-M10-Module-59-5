@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.input-field{
+    @apply border bg-sky-200 p-2 w-full rounded-lg font-semibold;
+}
+
+.btn-submit{
+    @apply bg-yellow-400 font-semibold rounded-lg px-2 py-1
+}
