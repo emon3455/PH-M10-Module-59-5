@@ -60,7 +60,7 @@ const Login = () => {
             <h2 className='text-4xl font-bold'>Please Login</h2>
             <h4 className={`text-2xl font-medium ${logUser ? 'block' : 'hidden'} `}>
                  
-                Welcome: {logUser && <span>{logUser?.email}</span> || <span>{logUser?.displayName}</span>}
+                Welcome: {logUser && <span>{logUser?.displayName}</span>}
                  
             </h4>
             <form onSubmit={handleSubmit} className='flex flex-col gap-5'>

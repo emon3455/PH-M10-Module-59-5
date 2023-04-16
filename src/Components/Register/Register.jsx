@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { app } from '../../../firebase/firebase.config';
@@ -17,12 +17,23 @@ const Register = () => {
         createUserWithEmailAndPassword(auth,email,password)
         .then(res=>{
             const registerUser = res.user;
-            console.log(registerUser);
             e.target.reset();
+
+            updateProfile(registerUser,{displayName: name})
+            .then(res=>{
+                alert("user created successfully");
+            })
+            .catch(er=>{
+                console.log(er.message);
+            })
+            
         })
         .catch(er=>{
             console.log(er.message);
         })
+
+        
+
 
     }
 
