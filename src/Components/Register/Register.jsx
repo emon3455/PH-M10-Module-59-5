@@ -1,11 +1,35 @@
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { app } from '../../../firebase/firebase.config';
+
+
+const auth = getAuth(app);
 
 const Register = () => {
+
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+        const name = e.target.name.value;
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+
+        createUserWithEmailAndPassword(auth,email,password)
+        .then(res=>{
+            const registerUser = res.user;
+            console.log(registerUser);
+            e.target.reset();
+        })
+        .catch(er=>{
+            console.log(er.message);
+        })
+
+    }
+
     return (
         <div className='flex h-screen flex-col gap-10 items-center justify-center'>
             <h2 className='text-4xl font-bold'>Please Register</h2>
-            <form className='flex flex-col gap-5'>
+            <form onSubmit={handleSubmit} className='flex flex-col gap-5'>
                 <input className='input-field' type="text" name='name' id='name' placeholder='your name'/>
                 <input className='input-field' type="email"  name='email' id='email' placeholder='your email' required/>
                 <input className='input-field' type="password" name="password" id="password" placeholder='your pass'  required/>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getAuth, GoogleAuthProvider, signInWithPopup ,GithubAuthProvider } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup ,GithubAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
 import { app } from '../../../firebase/firebase.config';
 import { Link } from 'react-router-dom';
 
@@ -29,23 +29,41 @@ const Login = () => {
         .then(res=>{
             const logedUser = res.user;
             setLogUser(logedUser);
-            console.log(logedUser);
         })
         .catch(er=>{
             console.log(er.message);
         })
     }
 
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+        const name = e.target.name.value;
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+
+        signInWithEmailAndPassword(auth,email,password)
+        .then(res=>{
+            const logedUser = res.user;
+            setLogUser(logedUser);
+            e.target.reset();
+            console.log(logedUser);
+        })
+        .catch(er=>{
+            console.log(er.message);
+        })
+
+    }
+
 
     return (
         <div className='flex h-screen flex-col gap-10 items-center justify-center'>
             <h2 className='text-4xl font-bold'>Please Login</h2>
-            <h4 className='text-2xl font-medium'>
+            <h4 className={`text-2xl font-medium ${logUser ? 'block' : 'hidden'} `}>
                  
-                {logUser &&  <span>Welcome:{logUser?.displayName}</span> || <span>Welcome:{logUser?.email}</span>}
+                Welcome: {logUser && <span>{logUser?.email}</span> || <span>{logUser?.displayName}</span>}
                  
             </h4>
-            <form className='flex flex-col gap-5'>
+            <form onSubmit={handleSubmit} className='flex flex-col gap-5'>
                 <input className='input-field' type="email"  name='email' id='email' placeholder='your email' required/>
                 <input className='input-field' type="password" name="password" id="password" placeholder='your pass'  required/>
                 <input className='btn-submit' type="submit" value="Login" />
